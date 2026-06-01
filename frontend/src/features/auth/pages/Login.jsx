@@ -1,7 +1,20 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { handleLogin, loading } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleLogin({ email, password });
+
+
+  };
+
   return (
     <div className="min-h-screen bg-white text-black">
       <div className="mx-auto flex min-h-screen max-w-md items-center px-6 py-12 sm:px-8">
@@ -18,7 +31,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -30,6 +43,8 @@ const Login = () => {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-black outline-none transition focus:border-black focus:ring-0"
               />
             </div>
@@ -54,6 +69,8 @@ const Login = () => {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-sm text-black outline-none transition focus:border-black focus:ring-0"
               />
             </div>
@@ -68,15 +85,19 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full rounded-2xl bg-black px-4 py-3 text-sm font-medium text-white transition hover:bg-zinc-800"
+              disabled={loading}
+              className="w-full rounded-2xl bg-black px-4 py-3 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Sign in
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
           <p className="mt-8 text-center text-sm text-zinc-600">
             Don&apos;t have an account?{" "}
-            <Link to="/register" className="font-medium text-black underline underline-offset-4">
+            <Link
+              to="/register"
+              className="font-medium text-black underline underline-offset-4"
+            >
               Create account
             </Link>
           </p>
