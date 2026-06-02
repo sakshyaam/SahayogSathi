@@ -16,10 +16,12 @@ app.use(express.json(
         limit : "16kb"
     }
 ));
-// handles data coming through url
+
 app.use(express.urlencoded({
     extended : true
 }))
 
 app.use(express.static("public"))
 app.use(cookieParser())
+
+export default app
