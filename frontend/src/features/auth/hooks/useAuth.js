@@ -14,7 +14,9 @@ export const useAuth = () =>{
 
          setLoading(true)
          const data = await login({email, password})
-         setUser(data); 
+         if (data.success) {
+           setUser(data.data.user);
+         }
          return data
        } finally {
             setLoading(false);
@@ -23,24 +25,27 @@ export const useAuth = () =>{
 
 
     const handleRegister = async ({fullname, username, email, password}) =>{
+      try {
         setLoading(true);
-
         const data = await register({fullname, username, email, password})
-
-        setUser(data.user);
+        // Registration typically doesn't log the user in immediately in this flow,
+        // but if it does, we should set the user. 
+        // Based on Register.jsx, it navigates to /login after registration.
+        return data;
+      } finally {
         setLoading(false);
-
+      }
     }
 
 
     const handleLogout = async () =>{
-                setLoading(true)
-
-                const data = await logout()
-
-                setUser(null)
-
-                setLoading(false)
+      try {
+        setLoading(true)
+        await logout()
+        setUser(null)
+      } finally {
+        setLoading(false)
+      }
     }
 
     return {user, loading, handleLogout, handleRegister, handleLogin}

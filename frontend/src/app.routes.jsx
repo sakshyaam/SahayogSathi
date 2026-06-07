@@ -5,6 +5,8 @@ import Register from './features/auth/pages/Register.jsx'
 import LandingPage from './features/auth/pages/LandingPage.jsx'
 import Dashboard from './features/auth/pages/Dashboard.jsx'
 import ProtectedRoute from './features/auth/components/ProtectedRoute.jsx'
+import CreatePost from './features/auth/pages/CreatePost.jsx'
+import MyPosts from './features/auth/pages/MyPosts.jsx'
 
 
 export const router = createBrowserRouter([
@@ -25,6 +27,18 @@ export const router = createBrowserRouter([
         path : "/dashboard",
         element : <ProtectedRoute>
             <Dashboard />
+        </ProtectedRoute>
+    },
+    {
+        path : "/createpost",
+        element : <ProtectedRoute>
+            <CreatePost />
+        </ProtectedRoute>
+    },
+    {
+        path : "/myposts",
+        element : <ProtectedRoute>
+            <MyPosts />
         </ProtectedRoute>
     }
 ])

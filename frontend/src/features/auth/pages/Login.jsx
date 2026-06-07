@@ -1,25 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
-  const Navigate = useNavigate()
-  const { handleLogin, loading, user} = useAuth();
+  const navigate = useNavigate();
+  const { handleLogin, loading, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await handleLogin({ email, password });
 
     try {
-      if(response.success){
-        Navigate("/dashboard")
+      if (response.success) {
+        navigate("/dashboard");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   };
 
   return (
