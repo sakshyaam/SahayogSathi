@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePost } from "../hooks/usePost";
+import imageCompression from "browser-image-compression";
 
 const CreatePost = () => {
   const navigate = useNavigate();
   const { handleCreatePost, loading, error } = usePost();
+  const [compressing, setCompressing] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     category: "assignment",
@@ -33,12 +35,34 @@ const CreatePost = () => {
     e.preventDefault();
 
     try {
+      setCompressing(true);
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key]);
       });
       
-      attachments.forEach((file) => {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+
+      const compressedAttachments = await Promise.all(
+        attachments.map(async (file) => {
+          if (file.type.startsWith("image/")) {
+            try {
+              return await imageCompression(file, options);
+            } catch (err) {
+              console.error("Compression failed for:", file.name, err);
+              return file;
+            }
+          }
+          return file;
+        })
+      );
+      setCompressing(false);
+
+      compressedAttachments.forEach((file) => {
         data.append("attachments", file);
       });
 
@@ -47,6 +71,7 @@ const CreatePost = () => {
         navigate("/dashboard");
       }
     } catch (err) {
+      setCompressing(false);
       console.error(err);
     }
   };
@@ -199,10 +224,10 @@ const CreatePost = () => {
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || compressing}
               className="rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-50"
             >
-              {loading ? "Publishing..." : "Publish post"}
+              {compressing ? "Optimizing images..." : loading ? "Publishing..." : "Publish post"}
             </button>
           </div>
         </form>
