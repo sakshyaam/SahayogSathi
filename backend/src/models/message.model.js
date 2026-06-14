@@ -12,12 +12,12 @@ const messageSchema = new Schema(
       ref: "User",
       required: true,
     },
-    text: {
+    message: {
       type: String,
       required: true,
     },
    
-    isRead: {
+    seen: {
       type: Boolean,
       default: false,
     },
