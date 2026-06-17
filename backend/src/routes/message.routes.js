@@ -8,9 +8,11 @@ router.use(verifyJWT )
 
 router.post("/send/:receiverId", sendMessage);
 
+router.get("/conversations/users", getConversationUsers);
+
 router.get("/:receiverId" , getMessage);
 
-router.get("/conversations/users", getConversationUsers);
+
 
 
 export default router
