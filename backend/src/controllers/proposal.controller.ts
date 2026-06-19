@@ -118,15 +118,16 @@ const acceptProposal = asyncHandler(async (req: Request, res: Response) => {
   const ownerId = post.postedBy;
   const helperId = proposal.helper;
 
-  await Conversation.findOneAndUpdate(
-    {
-      participants: { $all: [ownerId, helperId] },
-    },
-    {
-      $setOnInsert: { participants: [ownerId, helperId], messages: [] },
-    },
-    { upsert: true, new: true }
-  );
+  const existingConversation = await Conversation.findOne({
+    participants: { $all: [ownerId, helperId] },
+  });
+
+  if (!existingConversation) {
+    await Conversation.create({
+      participants: [ownerId, helperId],
+      messages: [],
+    });
+  }
 
   return res
     .status(200)
