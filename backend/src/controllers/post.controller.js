@@ -219,11 +219,11 @@ const deletePost = asyncHandler(async (req,res) =>{
     throw new ApiError(400, "Only open posts can be deleted");
    }
 
-   post.status = "close"
+   post.status = "closed"
 
    await post.save()
 
-   return res.status(200).json(new ApiResponse(200, "post closed Successfully"))
+   return res.status(200).json(new ApiResponse(200, {}, "Post closed successfully"))
 
   })
 
@@ -279,6 +279,7 @@ const getPostDetails = asyncHandler(async (req, res) => {
 export { 
   createPost,
   updatePost,
+  deletePost,
   getAllPost,
   getPostDetails
 };

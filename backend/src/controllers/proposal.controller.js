@@ -142,4 +142,34 @@ const getMyProposals = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, proposals, "Your proposals fetched successfully"));
 });
 
-export { createProposal, getPostProposals, acceptProposal, getMyProposals };
+const withdrawProposal = asyncHandler(async (req, res) => {
+  const { proposalId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(proposalId)) {
+    throw new ApiError(400, "Invalid proposal ID");
+  }
+
+  const proposal = await Proposal.findById(proposalId);
+  if (!proposal) {
+    throw new ApiError(404, "Proposal not found");
+  }
+
+  // Only the helper who submitted the proposal can withdraw it
+  if (proposal.helper.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "Unauthorized to withdraw this proposal");
+  }
+
+  // Can only withdraw pending proposals
+  if (proposal.status !== "pending") {
+    throw new ApiError(400, `Cannot withdraw a proposal that is already ${proposal.status}`);
+  }
+
+  proposal.status = "withdrawn";
+  await proposal.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, proposal, "Proposal withdrawn successfully"));
+});
+
+export { createProposal, getPostProposals, acceptProposal, getMyProposals, withdrawProposal };
