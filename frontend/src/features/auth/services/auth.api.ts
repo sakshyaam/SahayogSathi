@@ -51,6 +51,18 @@ export const login = async ({ email, password }: LoginCredentials): Promise<ApiR
   }
 };
 
+export const googleLogin = async (credential: string): Promise<ApiResponseData> => {
+  try {
+    const response = await api.post<ApiResponseData>("/api/v1/users/google-auth", {
+      credential,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export const logout = async (): Promise<ApiResponseData> => {
   try {
     const response = await api.post<ApiResponseData>("/api/v1/users/logout");

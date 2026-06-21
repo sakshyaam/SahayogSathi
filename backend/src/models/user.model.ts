@@ -14,6 +14,11 @@ type UserModel = Model<IUser, {}, IUserMethods>;
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
     username: {
       type: String,
       required: true,
@@ -35,7 +40,9 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     },
     password: {
       type: String,
-      required: true,
+      required: function (this: IUser) {
+        return !this.googleId;
+      },
       minlength: 6,
       select: false,
     },
