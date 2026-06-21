@@ -5,12 +5,14 @@ import {
   logoutUser,
   refreshAccessToken,
   getCurrentUser,
+  googleAuth
 } from "../controllers/user.controllers.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 import { authLimiter } from "../middleware/rateLimiter.middleware.js";
 
 const router = Router();
 
+router.post("/google-auth", authLimiter, googleAuth);
 router.post("/register", authLimiter, registerUser);
 router.post("/login", authLimiter, loginUser);
 router.post("/logout", verifyJWT, logoutUser);

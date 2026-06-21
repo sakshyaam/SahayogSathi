@@ -5,6 +5,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
+import { OAuth2Client } from "google-auth-library";
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const generateAccessTokenAndRefreshToken = async (userId: Types.ObjectId) => {
   try {
@@ -185,4 +188,76 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser };
+const googleAuth = asyncHandler(async (req: Request, res: Response) => {
+  const { credential } = req.body;
+  if (!credential) {
+    throw new ApiError(400, "Google credential is required");
+  }
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    if (!payload || !payload.email) {
+      throw new ApiError(400, "Invalid Google token payload");
+    }
+
+    const { sub: googleId, email, name, picture } = payload;
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // If user exists but doesn't have a googleId, link the account
+      if (!user.googleId) {
+        user.googleId = googleId;
+        await user.save({ validateBeforeSave: false });
+      }
+    } else {
+      // Create new user instantly
+      const baseUsername = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "");
+      const randomSuffix = Math.floor(Math.random() * 10000);
+      
+      user = await User.create({
+        googleId,
+        fullname: name || baseUsername,
+        username: `${baseUsername}${randomSuffix}`.toLowerCase(),
+        email,
+        avatar: picture,
+        isEmailVerified: true,
+      });
+    }
+
+    const { refreshToken, accessToken } = await generateAccessTokenAndRefreshToken(user._id as Types.ObjectId);
+
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(
+        new ApiResponse(
+          200,
+          {
+            user: loggedInUser,
+            accessToken,
+            refreshToken,
+          },
+          "Google authentication successful"
+        )
+      );
+  } catch (error: any) {
+    console.error("GOOGLE AUTH ERROR:", error);
+    throw new ApiError(401, "Google Authentication Failed");
+  }
+});
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser, googleAuth };

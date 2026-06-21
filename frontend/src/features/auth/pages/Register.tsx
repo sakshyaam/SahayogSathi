@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { handleRegister, loading, user } = useAuth();
+  const { handleRegister, handleGoogleLogin, loading, user } = useAuth();
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -31,6 +32,19 @@ const Register = () => {
       navigate("/login");
     } catch (error: any) {
       console.error("REGISTER FAILED:", error.response?.data || error.message);
+    }
+  };
+
+  const onGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      try {
+        const response = await handleGoogleLogin(credentialResponse.credential);
+        if (response && response.success) {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error("Google Login Error", error);
+      }
     }
   };
 
@@ -127,6 +141,23 @@ const Register = () => {
               {loading ? "Creating..." : "Create account"}
             </button>
           </form>
+
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <div className="h-px flex-1 bg-zinc-200"></div>
+            <span className="text-sm text-zinc-500">OR</span>
+            <div className="h-px flex-1 bg-zinc-200"></div>
+          </div>
+
+          <div className="mt-8 flex justify-center w-full">
+            <GoogleLogin
+              onSuccess={onGoogleSuccess}
+              onError={() => console.error("Google Login Failed")}
+              useOneTap
+              theme="outline"
+              size="large"
+              shape="pill"
+            />
+          </div>
 
           <p className="mt-8 text-center text-sm text-zinc-600">
             Already have an account?{" "}
