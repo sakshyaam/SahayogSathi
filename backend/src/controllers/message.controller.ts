@@ -17,8 +17,6 @@ const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   const { content } = req.body;
 
   const receiverObjectId = new Types.ObjectId(receiverId as string);
-
-  // Find existing conversation or create new one
   let conversation = await Conversation.findOne({
     participants: { $all: [senderId, receiverObjectId] },
   });
@@ -29,15 +27,11 @@ const sendMessage = asyncHandler(async (req: Request, res: Response) => {
       messages: [],
     });
   }
-
-  // Create the message
   const message = await Message.create({
     senderId,
     receiverId: receiverObjectId,
     content,
   }) as unknown as IMessage;
-
-  // Push message into conversation
   conversation.messages.push(message._id);
   await conversation.save();
 
@@ -76,8 +70,6 @@ const getMessage = asyncHandler(async (req: Request, res: Response) => {
 const getConversationUsers = asyncHandler(async (req: Request, res: Response) => {
   if (!req.user) throw new ApiError(401, "Unauthorized");
   const currentUserId = req.user._id;
-
-  // 1. Get users from existing Conversations
   const conversations = await Conversation.find({
     participants: currentUserId,
   }).populate("participants", "fullname username avatar");
@@ -89,8 +81,6 @@ const getConversationUsers = asyncHandler(async (req: Request, res: Response) =>
       );
     })
     .filter(Boolean);
-
-  // 2. Get users from accepted Proposals
   const myPosts = await Post.find({ postedBy: currentUserId, acceptedProposal: { $ne: null } })
     .populate({
       path: "acceptedProposal",
@@ -110,8 +100,6 @@ const getConversationUsers = asyncHandler(async (req: Request, res: Response) =>
   const ownersFromMyProposals = myAcceptedProposals
     .map(prop => (prop.post as unknown as IPost)?.postedBy as IUser)
     .filter(Boolean);
-
-  // Combine and de-duplicate
   const allUsers = [...(usersFromConvos as IUser[]), ...helpersFromMyPosts, ...ownersFromMyProposals];
   
   const uniqueUsers = Array.from(new Map(allUsers.map(u => [u._id.toString(), u])).values());

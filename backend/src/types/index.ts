@@ -116,7 +116,7 @@ export interface IPayment {
   type: "deposit" | "payout" | "refund";
   status: "pending" | "success" | "failed";
   gateway: "khalti" | "esewa" | "stripe" | "wallet";
-  transactionId?: string; // Gateway's transaction ID
+  transactionId?: string;
   metadata?: any;
   createdAt: Date;
   updatedAt: Date;
@@ -128,7 +128,7 @@ export interface ITransaction {
   amount: number;
   type: "credit" | "debit";
   description: string;
-  referenceId?: Types.ObjectId; // Ref to Order or Payment
+  referenceId?: Types.ObjectId;
   referenceModel?: "Order" | "Payment";
   createdAt: Date;
   updatedAt: Date;

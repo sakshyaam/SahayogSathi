@@ -115,14 +115,10 @@ const Chat = () => {
       setNewMessage(tempMessage);
     }
   };
-
-  // Filter conversations
   const filteredUsers = users.filter((u) =>
     u.fullname.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
     u.username.toLowerCase().includes(userSearchQuery.toLowerCase())
   );
-
-
 
   if (!currentUser) return <div className="p-10 text-center text-zinc-650 bg-stone-50 min-h-screen">Loading user profile...</div>;
 
@@ -130,11 +126,9 @@ const Chat = () => {
     <div className="flex-1 h-screen flex flex-col pt-16 md:pt-0 overflow-hidden bg-[#F6F6F6]">
       <div className="flex-1 flex overflow-hidden bg-white animate-fade-in">
         
-        {/* 1. Chats Sidebar List */}
-        <div className="w-full sm:w-80 border-r border-zinc-200 flex flex-col bg-zinc-50/50 shrink-0">
+                <div className="w-full sm:w-80 border-r border-zinc-200 flex flex-col bg-zinc-50/50 shrink-0">
           
-          {/* Search header Block */}
-          <div className="p-4 border-b border-zinc-100 space-y-3.5 bg-white">
+                    <div className="p-4 border-b border-zinc-100 space-y-3.5 bg-white">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-black font-mono uppercase tracking-wider text-zinc-800">Messages Workspace</h2>
               <span className="w-2 h-2 bg-emerald-500 rounded-full" />
@@ -151,8 +145,7 @@ const Chat = () => {
             </div>
           </div>
 
-          {/* Contacts scrolling area */}
-          <div className="flex-1 overflow-y-auto divide-y divide-zinc-100/50">
+                    <div className="flex-1 overflow-y-auto divide-y divide-zinc-100/50">
             {fetchingUsers ? (
               <p className="p-6 text-center text-xs font-mono text-zinc-400">Loading conversations...</p>
             ) : filteredUsers.length === 0 ? (
@@ -205,12 +198,10 @@ const Chat = () => {
           </div>
         </div>
 
-        {/* 2. Chat Pane */}
-        <div className="flex-1 flex flex-col bg-white">
+                <div className="flex-1 flex flex-col bg-white">
           {selectedUser ? (
             <>
-              {/* Chat Pane Header */}
-              <div className="px-6 py-4 border-b border-zinc-200 flex items-center justify-between bg-zinc-50/20">
+                            <div className="px-6 py-4 border-b border-zinc-200 flex items-center justify-between bg-zinc-50/20">
                 <div className="flex items-center gap-3">
                   {selectedUser.avatar ? (
                     <img
@@ -244,16 +235,14 @@ const Chat = () => {
                   </div>
                 </div>
 
-                {/* Status bar block */}
-                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 bg-zinc-100 border border-zinc-200 font-bold font-mono text-[9px] text-zinc-500 rounded-lg uppercase tracking-wide flex items-center gap-1 select-none">
                     <Lock className="w-2.5 h-2.5 text-zinc-400" /> Secure Encryption Active
                   </span>
                 </div>
               </div>
 
-              {/* Scrollable Messages list panel */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-zinc-50/20">
+                            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-zinc-50/20">
                 {fetchingMessages ? (
                   <p className="text-center text-xs font-mono text-zinc-400 py-10">Syncing conversation records...</p>
                 ) : messages.length === 0 ? (
@@ -307,8 +296,7 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Chat Send input footer */}
-              <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-200 bg-white flex gap-3 items-center">
+                            <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-200 bg-white flex gap-3 items-center">
                 <input
                   type="text"
                   placeholder="Type negotiation comments, send milestones updates, discuss details..."

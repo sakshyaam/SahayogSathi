@@ -36,8 +36,6 @@ const MyPosts = () => {
   const handleDelete = async (postId: string) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
-      // NOTE: Assuming there's a DELETE endpoint, if not, mock or support edit/close.
-      // Since delete might not be standard, let's keep it clean or mock delete on UI.
       setPosts((prev) => prev.filter((p) => p._id.toString() !== postId));
       alert("Post removed successfully.");
     } catch (err: any) {
@@ -82,8 +80,7 @@ const MyPosts = () => {
           </Link>
         </div>
 
-        {/* Tab filters */}
-        <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-6">
           {(["all", "open", "in_progress", "completed"] as const).map((tab) => (
             <button
               key={tab}
@@ -122,8 +119,7 @@ const MyPosts = () => {
                 key={post._id}
                 className="group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/40 hover:-translate-y-1 overflow-hidden"
               >
-                {/* Subtle Top Gradient Accent */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                 <div className="flex flex-col gap-2">
                   <div className="mb-2 flex items-center justify-between">

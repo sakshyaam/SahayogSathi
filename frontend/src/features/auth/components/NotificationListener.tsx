@@ -30,8 +30,6 @@ export const NotificationListener = () => {
       };
 
       setToasts((prev) => [...prev, newToast]);
-
-      // Auto dismiss after 5 seconds
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== newToast.id));
       }, 5000);

@@ -5,9 +5,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { io, getReceiverSocketId } from "../socket/socket.js";
 
-/**
- * Helper to create a notification and send a real-time socket event
- */
 export const createNotification = async (data: {
   recipient: string | any;
   sender: string | any;
@@ -30,13 +27,9 @@ export const createNotification = async (data: {
     return populated;
   } catch (error: any) {
     console.error("Failed to create/send notification:", error);
-    // Non-blocking, so we don't throw error to break the calling function
   }
 };
 
-/**
- * Fetch all notifications for the logged-in user
- */
 export const getMyNotifications = asyncHandler(async (req: Request, res: Response) => {
   if (!req.user) throw new ApiError(401, "Unauthorized");
 
@@ -51,9 +44,6 @@ export const getMyNotifications = asyncHandler(async (req: Request, res: Respons
     .json(new ApiResponse(200, notifications, "Notifications fetched successfully"));
 });
 
-/**
- * Mark a single or all notifications as read
- */
 export const markNotificationAsRead = asyncHandler(async (req: Request, res: Response) => {
   const { notificationId } = req.params;
 

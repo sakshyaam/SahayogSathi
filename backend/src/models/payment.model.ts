@@ -43,7 +43,7 @@ const paymentSchema = new Schema<IPayment>(
     },
     transactionId: {
       type: String,
-      sparse: true, // Gateway transaction ID
+      sparse: true,
     },
     metadata: {
       type: Schema.Types.Mixed,

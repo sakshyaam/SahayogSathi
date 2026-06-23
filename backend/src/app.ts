@@ -34,8 +34,6 @@ app.use("/api/v1/proposals", proposalRouter);
 app.use("/api/v1/payments", paymentRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/notifications", notificationRouter);
-
-// Global error handler — must be registered AFTER all routes
 app.use(errorHandler);
 
 export default app;

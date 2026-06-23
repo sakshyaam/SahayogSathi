@@ -10,8 +10,6 @@ const run = async () => {
     console.log("Connected to database for debugging.");
 
     const targetPostId = "6a3552f10af06d45fa2fe711";
-
-    // Find post
     const post = await Post.findById(targetPostId);
     if (!post) {
       console.log(`Post ${targetPostId} not found.`);
@@ -26,8 +24,6 @@ const run = async () => {
       postedBy: post.postedBy,
       acceptedProposal: post.acceptedProposal,
     });
-
-    // Find proposals
     const proposals = await Proposal.find({ post: targetPostId }).populate("helper", "fullname username");
     console.log(`=== PROPOSALS FOR POST (${proposals.length}) ===`);
     proposals.forEach((prop) => {

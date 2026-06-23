@@ -190,7 +190,6 @@ const PostDetails = () => {
       const data = await acceptProposal(proposalId);
       if (data.success) {
         alert("Proposal accepted!");
-        // Refresh post and proposals
         const response = await fetchPostById(postId);
         setPost(response.data);
         fetchProposals();
@@ -243,8 +242,7 @@ const PostDetails = () => {
         </Link>
 
         <div className="overflow-hidden rounded-[3rem] border border-zinc-200 bg-white shadow-sm">
-          {/* Hero Section */}
-          <div className="border-b border-zinc-100 p-8 sm:p-12">
+                    <div className="border-b border-zinc-100 p-8 sm:p-12">
             <div className="mb-6 flex items-center gap-3">
               <span className="rounded-full bg-zinc-100 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-zinc-600">
                 {post.category}
@@ -293,8 +291,7 @@ const PostDetails = () => {
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="p-8 sm:p-12">
+                    <div className="p-8 sm:p-12">
             <div className="prose prose-zinc max-w-none">
               <h2 className="text-lg font-semibold text-black">Description</h2>
               <p className="mt-4 whitespace-pre-wrap leading-relaxed text-zinc-600">
@@ -321,12 +318,10 @@ const PostDetails = () => {
               </div>
             )}
 
-            {/* Actions / Proposals */}
-            <div className="mt-16 border-t border-zinc-100 pt-10">
+                        <div className="mt-16 border-t border-zinc-100 pt-10">
               {isOwner ? (
                 <div>
-                  {/* Order & Escrow Management Card for Client */}
-                  {post.status === "in_progress" && order && (
+                                    {post.status === "in_progress" && order && (
                     <div className="mb-10 p-8 rounded-[2rem] border border-zinc-200 bg-white shadow-sm">
                       <h3 className="text-xl font-bold mb-4">Order & Escrow Status</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 bg-zinc-50 p-6 rounded-2xl">
@@ -551,8 +546,7 @@ const PostDetails = () => {
                         <Link to="/chat" className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-zinc-800">Go to Chat</Link>
                       </div>
 
-                      {/* If the current user is the helper, show Submission form/button */}
-                      {((typeof post.acceptedProposal === "object" && (post.acceptedProposal as any).helper?._id === currentUser?._id) ||
+                                            {((typeof post.acceptedProposal === "object" && (post.acceptedProposal as any).helper?._id === currentUser?._id) ||
                         (order && order.helper === currentUser?._id)) && (
                         <>
                           {(order?.status === "active" || order?.status === "pending_payment") && (

@@ -34,7 +34,6 @@ const TopUpModal = ({ isOpen, onClose, onSuccess }: TopUpModalProps) => {
       const res = await initiateTopUp(numAmount, gateway);
       if (res.success) {
         setStep("simulating");
-        // Simulate a small loading wait for the redirect callback
         setTimeout(async () => {
           try {
             const verifyRes = await verifyTopUp(numAmount, `txn_mock_${Date.now()}`, gateway);
@@ -60,8 +59,7 @@ const TopUpModal = ({ isOpen, onClose, onSuccess }: TopUpModalProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Overlay Backdrop */}
-      <motion.div
+            <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.4 }}
         exit={{ opacity: 0 }}
@@ -69,16 +67,14 @@ const TopUpModal = ({ isOpen, onClose, onSuccess }: TopUpModalProps) => {
         className="fixed inset-0 bg-black"
       />
 
-      {/* Modal Card */}
-      <motion.div
+            <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ type: "spring", duration: 0.35 }}
         className="relative bg-white border border-zinc-200 rounded-[2.5rem] p-8 w-full max-w-md shadow-2xl z-10 text-zinc-900"
       >
-        {/* Close Button */}
-        <button
+                <button
           onClick={onClose}
           className="absolute top-6 right-6 p-1.5 rounded-full hover:bg-zinc-100 transition text-zinc-400 hover:text-black"
         >

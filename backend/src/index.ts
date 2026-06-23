@@ -14,19 +14,11 @@ connectDB()
   .catch((err) => {
     console.log("MONGODB CONNECTION FAILED ", err);
   });
-
-// Graceful shutdown handler for tsx watch restarts and Ctrl+C
 const gracefulShutdown = (signal: string) => {
   console.log(`\n[${signal}] Received. Starting graceful shutdown...`);
-
-  // Close socket server
   io.close();
-
-  // Close HTTP server
   server.close(() => {
     console.log("HTTP server closed.");
-
-    // Close Mongoose connection
     mongoose.connection.close()
       .then(() => {
         console.log("MongoDB connection closed.");
@@ -37,8 +29,6 @@ const gracefulShutdown = (signal: string) => {
         process.exit(1);
       });
   });
-
-  // Force exit after 2s if handles are stuck
   setTimeout(() => {
     console.log("Force exiting due to shutdown timeout...");
     process.exit(1);

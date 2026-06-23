@@ -43,8 +43,6 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // Stats data states
   const [stats, setStats] = useState({
     activeTasks: 0,
     postedRequests: 0,
@@ -62,7 +60,6 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      // Fetch notifications, my-tasks, my-posts to calculate count
       const [notifsRes, tasksRes, postsRes] = await Promise.all([
         api.get("/api/v1/notifications"),
         api.get("/api/v1/orders/my-tasks"),
@@ -97,8 +94,6 @@ const Dashboard = () => {
     loadPosts();
     fetchStats();
   }, []);
-
-  // Filter posts based on category and search query
   const filteredPosts = posts.filter((post) => {
     const matchesCategory =
       selectedCategory === "All" ||
@@ -120,8 +115,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex-1 p-4 md:p-8 pt-20 md:pt-8 relative">
-        {/* Top Header Row: Search & Profile */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
               Workspace Overview
@@ -132,8 +126,7 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-3 w-full md:w-auto">
-            {/* Search Input */}
-            <div className="relative flex-1 md:w-80">
+                        <div className="relative flex-1 md:w-80">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <input
                 type="text"
@@ -143,8 +136,7 @@ const Dashboard = () => {
                 className="w-full bg-white border border-zinc-200 rounded-full pl-10 pr-4 py-2.5 text-xs text-black placeholder-zinc-400 focus:outline-none focus:border-zinc-400 shadow-sm"
               />
             </div>
-            {/* Floating Post A Request Shortcut */}
-            <Link
+                        <Link
               to="/createpost"
               className="bg-black text-white hover:bg-zinc-800 p-2.5 sm:px-5 sm:py-2.5 rounded-full flex items-center gap-2 shadow-md shrink-0 transition"
             >
@@ -154,10 +146,8 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* 3. METRICS / STATS SECTION */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {/* Card 1: Wallet Balance */}
-          <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
+                <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-wider">Wallet Balance</span>
               <Wallet className="h-4 w-4 text-zinc-500" />
@@ -168,8 +158,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Card 2: Active Tasks */}
-          <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
+                    <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-wider">Running Tasks</span>
               <Briefcase className="h-4 w-4 text-zinc-500" />
@@ -180,8 +169,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Card 3: Posted Requests */}
-          <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
+                    <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-wider">My Posted Tasks</span>
               <FileText className="h-4 w-4 text-zinc-500" />
@@ -192,8 +180,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Card 4: Unread Messages/Notifications */}
-          <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
+                    <div className="bg-white border border-zinc-200 p-5 rounded-[2rem] shadow-sm flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-wider">Alerts</span>
               <Bell className="h-4 w-4 text-zinc-500" />
@@ -205,12 +192,10 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* 4. TASK BROWSER CONTAINER */}
-        <section className="flex flex-col gap-6">
+                <section className="flex flex-col gap-6">
           <div className="flex items-center justify-between border-b border-zinc-250 pb-4">
             <h2 className="text-lg font-bold text-black">Available Tasks Feed</h2>
-            {/* Category Selector Scroll */}
-            <div className="flex gap-1.5 overflow-x-auto no-scrollbar max-w-[70%]">
+                        <div className="flex gap-1.5 overflow-x-auto no-scrollbar max-w-[70%]">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -227,8 +212,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Task Bento Grid */}
-          {loading ? (
+                    {loading ? (
             <div className="flex h-64 items-center justify-center">
               <p className="text-zinc-500">Loading feed tasks...</p>
             </div>
@@ -250,8 +234,7 @@ const Dashboard = () => {
                     key={post._id}
                     className="group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/40 hover:-translate-y-1 overflow-hidden"
                   >
-                    {/* Subtle Top Gradient Accent */}
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                     <div>
                       <div className="mb-5 flex items-center justify-between">

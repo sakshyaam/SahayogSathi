@@ -5,12 +5,9 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { createNotification } from "./notification.controller.js";
 
-/**
- * Helper submits work for an active order
- */
 const submitWork = asyncHandler(async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const { deliverables } = req.body; // Array of { url: string, filename: string }
+  const { deliverables } = req.body;
 
   if (!req.user) throw new ApiError(401, "Unauthorized");
 
@@ -24,8 +21,6 @@ const submitWork = asyncHandler(async (req: Request, res: Response) => {
   if (order.status !== "active" && order.status !== "pending_payment") {
     throw new ApiError(400, "Work can only be submitted for active or pending payment orders");
   }
-
-  // Update order fields
   order.status = "submitted";
   order.submittedAt = new Date();
   
@@ -39,8 +34,6 @@ const submitWork = asyncHandler(async (req: Request, res: Response) => {
   }
 
   await order.save();
-
-  // Create notification for the post publisher (Client)
   const clientName = (order.client as any).fullname || "A user";
   const helperName = (order.helper as any).fullname || "A helper";
 
@@ -58,9 +51,6 @@ const submitWork = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, order, "Work submitted successfully"));
 });
 
-/**
- * Fetch Order details by Post ID
- */
 const getOrderForPost = asyncHandler(async (req: Request, res: Response) => {
   const { postId } = req.params;
 
@@ -72,9 +62,6 @@ const getOrderForPost = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, order, "Order fetched successfully"));
 });
 
-/**
- * Fetch all tasks (orders) where the current user is the helper
- */
 const getMyTasks = asyncHandler(async (req: Request, res: Response) => {
   if (!req.user) throw new ApiError(401, "Unauthorized");
 

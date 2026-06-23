@@ -16,7 +16,7 @@ const storage: StorageEngine = multer.diskStorage({
 export const upload = multer({
   storage,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB per file max
+    fileSize: 10 * 1024 * 1024,
   },
   fileFilter: function (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) {
     const allowed = [

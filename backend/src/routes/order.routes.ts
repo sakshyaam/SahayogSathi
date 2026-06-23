@@ -5,8 +5,6 @@ import { verifyJWT } from "../middleware/auth.middleware.js";
 const router = Router();
 
 router.use(verifyJWT);
-
-// Order details & submission
 router.get("/my-tasks", getMyTasks);
 router.get("/post/:postId", getOrderForPost);
 router.post("/:orderId/submit", submitWork);
