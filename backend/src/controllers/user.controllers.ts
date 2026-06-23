@@ -210,13 +210,11 @@ const googleAuth = asyncHandler(async (req: Request, res: Response) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      // If user exists but doesn't have a googleId, link the account
       if (!user.googleId) {
         user.googleId = googleId;
         await user.save({ validateBeforeSave: false });
       }
     } else {
-      // Create new user instantly
       const baseUsername = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "");
       const randomSuffix = Math.floor(Math.random() * 10000);
       

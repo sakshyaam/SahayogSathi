@@ -129,8 +129,6 @@ const acceptProposal = asyncHandler(async (req: Request, res: Response) => {
       messages: [],
     });
   }
-
-  // Create an Order
   const workDeadline = new Date();
   workDeadline.setDate(workDeadline.getDate() + proposal.estimatedDeliveryDays);
 
@@ -140,7 +138,7 @@ const acceptProposal = asyncHandler(async (req: Request, res: Response) => {
     client: ownerId,
     helper: helperId,
     agreedAmount: proposal.proposedAmount,
-    currency: post.currency === "NPR" ? "NPR" : "USD", // Match the post's currency or set default
+    currency: post.currency === "NPR" ? "NPR" : "USD",
     status: "pending_payment",
     escrowStatus: "unpaid",
     workDeadline,

@@ -43,7 +43,6 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     fetchUnreadNotificationsCount();
-    // Poll notifications every 30s
     const timer = setInterval(fetchUnreadNotificationsCount, 30000);
     return () => clearInterval(timer);
   }, []);
@@ -61,19 +60,16 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-stone-50 text-zinc-900 flex">
-      {/* LEFT SIDEBAR (Desktop) */}
-      <aside className="hidden md:flex flex-col w-64 border-r border-zinc-200 bg-white min-h-screen fixed top-0 bottom-0 z-30 justify-between shrink-0">
+            <aside className="hidden md:flex flex-col w-64 border-r border-zinc-200 bg-white min-h-screen fixed top-0 bottom-0 z-30 justify-between shrink-0">
         <div>
-          {/* Logo */}
-          <div className="flex items-center gap-3 px-6 py-6 border-b border-zinc-150">
+                    <div className="flex items-center gap-3 px-6 py-6 border-b border-zinc-150">
             <div className="flex h-9 w-9 items-center justify-center bg-black text-white font-display font-black text-lg">
               S
             </div>
             <span className="font-display font-black text-sm tracking-wider uppercase text-black">SAHAYOGSATHI</span>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="p-4 space-y-1.5 mt-4 relative">
+                    <nav className="p-4 space-y-1.5 mt-4 relative">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -111,8 +107,7 @@ const DashboardLayout = () => {
           </nav>
         </div>
 
-        {/* User profile details & logout at bottom */}
-        <div className="p-4 border-t border-zinc-150">
+                <div className="p-4 border-t border-zinc-150">
           <div className="flex items-center gap-3 px-2 py-3 mb-2">
             <div className="h-10 w-10 rounded-full bg-zinc-200 overflow-hidden flex items-center justify-center text-sm font-bold text-zinc-600 border border-zinc-300">
               {user?.avatar ? (
@@ -136,8 +131,7 @@ const DashboardLayout = () => {
         </div>
       </aside>
 
-      {/* MOBILE HEADER & DRAWER */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b border-zinc-200 bg-white z-40 flex items-center justify-between px-4">
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b border-zinc-200 bg-white z-40 flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <button onClick={() => setSidebarOpen(true)} className="p-1 hover:bg-zinc-100 rounded-lg">
             <Menu className="h-6 w-6" />
@@ -149,8 +143,7 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Overlay */}
-      <AnimatePresence>
+            <AnimatePresence>
         {sidebarOpen && (
           <>
             <motion.div
@@ -215,8 +208,7 @@ const DashboardLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* MAIN VIEWPORT CONTAINER */}
-      <div className="flex-1 md:ml-64 min-h-screen relative flex flex-col">
+            <div className="flex-1 md:ml-64 min-h-screen relative flex flex-col">
         <Outlet />
       </div>
     </div>

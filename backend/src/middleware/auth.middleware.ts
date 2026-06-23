@@ -4,8 +4,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { IUser } from "../types/index.js";
-
-// Extend Express Request to include user
 declare global {
   namespace Express {
     interface Request {

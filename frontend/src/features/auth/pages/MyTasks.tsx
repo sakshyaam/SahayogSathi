@@ -131,8 +131,7 @@ const MyTasks = () => {
                 key={task._id}
                 className="group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/40 hover:-translate-y-1 overflow-hidden"
               >
-                {/* Subtle Top Gradient Accent */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-zinc-200 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                 <div>
                   <div className="mb-5 flex items-center justify-between">

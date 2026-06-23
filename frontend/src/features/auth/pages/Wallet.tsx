@@ -47,8 +47,7 @@ const Wallet = () => {
   return (
     <div className="p-4 md:p-8 pt-20 md:pt-8 flex-1 bg-stone-50 text-zinc-900">
       <main className="mx-auto max-w-5xl">
-        {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight text-black flex items-center gap-2">
               Virtual Wallet <WalletIcon className="h-7 w-7 text-zinc-650" />
@@ -74,10 +73,8 @@ const Wallet = () => {
           </div>
         )}
 
-        {/* Balance Stat Grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          {/* Card 1: Available Balance */}
-          <div className="bg-white border border-zinc-200 p-6 rounded-[2.5rem] shadow-sm flex flex-col justify-between min-h-[140px] relative overflow-hidden group hover:shadow-md transition">
+                <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                    <div className="bg-white border border-zinc-200 p-6 rounded-[2.5rem] shadow-sm flex flex-col justify-between min-h-[140px] relative overflow-hidden group hover:shadow-md transition">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Available Balance</span>
               <WalletIcon className="h-5 w-5 text-zinc-500" />
@@ -90,8 +87,7 @@ const Wallet = () => {
             </div>
           </div>
 
-          {/* Card 2: Escrow Balance */}
-          <div className="bg-white border border-zinc-200 p-6 rounded-[2.5rem] shadow-sm flex flex-col justify-between min-h-[140px] relative overflow-hidden group hover:shadow-md transition">
+                    <div className="bg-white border border-zinc-200 p-6 rounded-[2.5rem] shadow-sm flex flex-col justify-between min-h-[140px] relative overflow-hidden group hover:shadow-md transition">
             <div className="flex justify-between items-center text-zinc-400">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Locked Escrow Balance</span>
               <Lock className="h-5 w-5 text-zinc-500" />
@@ -105,8 +101,7 @@ const Wallet = () => {
           </div>
         </section>
 
-        {/* Action Controls */}
-        <div className="flex flex-wrap gap-3 mb-10">
+                <div className="flex flex-wrap gap-3 mb-10">
           <button
             onClick={() => setIsTopUpOpen(true)}
             className="inline-flex items-center gap-2 rounded-full bg-black hover:bg-zinc-800 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white shadow-md transition"
@@ -123,8 +118,7 @@ const Wallet = () => {
           </button>
         </div>
 
-        {/* Transaction History (Double-Entry Ledger Table) */}
-        <section className="bg-white border border-zinc-200 rounded-[2.5rem] p-6 sm:p-8 shadow-sm">
+                <section className="bg-white border border-zinc-200 rounded-[2.5rem] p-6 sm:p-8 shadow-sm">
           <h2 className="text-lg font-bold text-black mb-6">Ledger Transaction History</h2>
           
           {loading ? (
@@ -183,8 +177,7 @@ const Wallet = () => {
         </section>
       </main>
 
-      {/* TopUp Modal Popup */}
-      <TopUpModal
+            <TopUpModal
         isOpen={isTopUpOpen}
         onClose={() => setIsTopUpOpen(false)}
         onSuccess={fetchWalletData}
